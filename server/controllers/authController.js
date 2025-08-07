@@ -58,7 +58,7 @@ export const loginUser = asyncHandler(async (req, res) => {
 });
 
 
-// @desc    Logout User / clear cookie
+// @desc    User logout / clear cookie
 // @route   POST /api/auth/logout
 // @access  Public
 export const logoutUser = asyncHandler(async (req, res) => {
