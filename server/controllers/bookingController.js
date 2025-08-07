@@ -32,7 +32,7 @@ export const createBooking = asyncHandler(async (req, res) => {
     event.bookedSeats += seatsBooked;
     await event.save();
 
-    res.status(201).json(booking);
+    res.status(201).json({ message: "Booking created successfully!" , booking });
 })
 
 
@@ -45,7 +45,7 @@ export const getMyBookings = asyncHandler(async (req, res) => {
         .populate('event', 'name date category');
 
     if (bookings && bookings.length > 0) {
-        res.status(200).json(bookings);
+        res.status(200).json({ message: "Bookings fetched successfully!" , bookings });
     } else {
         res.status(404).json({ message: "You have no bookings yet" });
     }

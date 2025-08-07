@@ -20,10 +20,10 @@ export const registerUser = asyncHandler(async (req, res) => {
     });
     
     if(user) {
-        
         generateToken(res, user._id);
     
         res.status(200).json({
+            message: "User created Successfully",
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
@@ -46,9 +46,8 @@ export const loginUser = asyncHandler(async (req, res) => {
   if (user && (await user.matchPassword(password))) {
     generateToken(res, user._id);
     res.status(200).json({
+      message: "User Logged in Successfully",
       _id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
       email: user.email,
       isAdmin: user.isAdmin,
     });

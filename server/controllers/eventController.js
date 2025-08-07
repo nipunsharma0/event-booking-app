@@ -15,7 +15,7 @@ export const createEvent = asyncHandler(async (req, res) => {
     });
 
     const createdEvent = await event.save();
-    res.status(201).json(createdEvent);
+    res.status(201).json({ message: "Event created successfully!" , createdEvent });
 });
 
 
@@ -38,7 +38,7 @@ export const getEventById = asyncHandler(async (req, res) => {
     console.log(req.params._id);
     
     if(event) {
-        res.status(200).json(event)
+        res.status(200).json({ message: "Event fetched successfully" , event })
     } else {
         res.status(404).json({ message: "Event not found"})
     }
@@ -61,7 +61,7 @@ export const updateEvent = asyncHandler(async (req, res) => {
     event.maxSeats = req.body.maxSeats || event.maxSeats;
 
     const updatedEvent = await event.save();
-    res.status(200).json(updatedEvent);
+    res.status(200).json({ message: "Event updated successfully!" , updatedEvent });
   } else {
     res.status(404).json({ message: "Event not found"});
     throw new Error('Event not found');
@@ -77,7 +77,7 @@ export const deleteEvent = asyncHandler(async (req, res) => {
 
   if (event) {
     await Event.deleteOne({ _id: event._id });
-    res.status(200).json({ message: 'Event removed' });
+    res.status(200).json({ message: 'Event deleted successfully' });
   } else {
     res.status(404).json({ message: "Event not found"});
   }
