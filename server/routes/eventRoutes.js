@@ -14,12 +14,12 @@ import { createEventSchema } from '../schemas/eventSchema.js';
 const router = express.Router();
 
 router.route('/')
-    .get(getAllEvents)
+    .get(protect, getAllEvents)
     .post(protect, admin, validate(createEventSchema), createEvent);
 
 
 router.route('/:id')
-    .get(getEventById)
+    .get(protect, getEventById)
     .put(protect, admin, updateEvent)
     .delete(protect, admin, deleteEvent);
 
