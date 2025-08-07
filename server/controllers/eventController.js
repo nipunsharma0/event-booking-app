@@ -7,15 +7,15 @@ import Event from "../models/Event.js";
 // @access  Private/Admin
 export const createEvent = asyncHandler(async (req, res) => {
 
-    const eventData = req.body;
+  const eventData = req.body;
 
-    const event = new Event({
-        ...eventData,
-        organizer: req.user._id, // this will link event to current admin
-    });
+  const event = new Event({
+    ...eventData,
+    organizer: req.user._id, // this will link event to current admin
+  });
 
-    const createdEvent = await event.save();
-    res.status(201).json({ message: "Event created successfully!" , createdEvent });
+  const createdEvent = await event.save();
+  res.status(201).json({ message: "Event created successfully!", createdEvent });
 });
 
 
@@ -24,18 +24,41 @@ export const createEvent = asyncHandler(async (req, res) => {
 // @access  Public
 export const getAllEvents = asyncHandler(async (req, res) => {
 
-    const filter = {};
+  const filter = {};
 
-    if (req.query.category) {
-      filter.category = req.query.category;
+  if (req.query.category) {
+    filter.category = req.query.category;
+  }
+
+  if (req.query.city) {
+    filter['venue.city'] = { $regex: req.query.city, $options: 'i' }; // To handle case-sensitivity
+  }
+
+  if (req.query.minPrice || req.query.maxPrice) {
+    filter.price = {};
+    if (req.query.minPrice) {
+      filter.price.$gte = Number(req.query.minPrice); 
     }
-
-    if (req.query.city) {
-      filter['venue.city'] = { $regex: req.query.city, $options: 'i' }; // To handle case-sensitivity
+    if (req.query.maxPrice) {
+      filter.price.$lte = Number(req.query.maxPrice); 
     }
+  }
 
-    const events = await Event.find(filter).populate('organizer', 'firstName lastName');
-    res.status(200).json(events);
+
+  if (req.query.startDate || req.query.endDate) {
+    filter.date = {};
+    if (req.query.startDate) {
+      filter.date.$gte = new Date(req.query.startDate);
+    }
+    if (req.query.endDate) {
+      const endDate = new Date(req.query.endDate);
+      endDate.setUTCHours(23, 59, 59, 999);
+      filter.date.$lte = endDate;
+    }
+  }
+
+  const events = await Event.find(filter).populate('organizer', 'firstName lastName');
+  res.status(200).json(events);
 });
 
 
@@ -44,14 +67,14 @@ export const getAllEvents = asyncHandler(async (req, res) => {
 // @access  Public
 export const getEventById = asyncHandler(async (req, res) => {
 
-    const event = await Event.findById(req.params.id);
-    console.log(req.params._id);
-    
-    if(event) {
-        res.status(200).json({ message: "Event fetched successfully" , event })
-    } else {
-        res.status(404).json({ message: "Event not found"})
-    }
+  const event = await Event.findById(req.params.id);
+  console.log(req.params._id);
+
+  if (event) {
+    res.status(200).json({ message: "Event fetched successfully", event })
+  } else {
+    res.status(404).json({ message: "Event not found" })
+  }
 });
 
 
@@ -71,9 +94,9 @@ export const updateEvent = asyncHandler(async (req, res) => {
     event.maxSeats = req.body.maxSeats || event.maxSeats;
 
     const updatedEvent = await event.save();
-    res.status(200).json({ message: "Event updated successfully!" , updatedEvent });
+    res.status(200).json({ message: "Event updated successfully!", updatedEvent });
   } else {
-    res.status(404).json({ message: "Event not found"});
+    res.status(404).json({ message: "Event not found" });
     throw new Error('Event not found');
   }
 });
@@ -89,7 +112,7 @@ export const deleteEvent = asyncHandler(async (req, res) => {
     await Event.deleteOne({ _id: event._id });
     res.status(200).json({ message: 'Event deleted successfully' });
   } else {
-    res.status(404).json({ message: "Event not found"});
+    res.status(404).json({ message: "Event not found" });
   }
 });
 
