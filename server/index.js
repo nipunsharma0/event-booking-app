@@ -5,6 +5,9 @@ import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 
 import authRoutes from './routes/authRoutes.js';
+import eventRoutes from './routes/eventRoutes.js';
+import User from './models/User.js';
+import Event from './models/Event.js';
 
 
 dotenv.config();
@@ -35,6 +38,7 @@ app.use(cookieParser());
 
 
 app.use('/api/auth', authRoutes);
+app.use('/api/events', eventRoutes);
 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
