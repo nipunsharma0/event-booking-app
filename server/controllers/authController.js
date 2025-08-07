@@ -26,8 +26,7 @@ export const registerUser = asyncHandler(async (req, res) => {
             message: "User created Successfully",
             firstName: user.firstName,
             lastName: user.lastName,
-            email: user.email,
-            isAdmin: user.isAdmin
+            email: user.email
         });
     } else {
         res.status(400).json({ message: "Invalid user data" });
@@ -48,8 +47,7 @@ export const loginUser = asyncHandler(async (req, res) => {
     res.status(200).json({
       message: "User Logged in Successfully",
       _id: user._id,
-      email: user.email,
-      isAdmin: user.isAdmin,
+      email: user.email
     });
   } else {
     res.status(401).json({ message: "Invalid email or password" }); 

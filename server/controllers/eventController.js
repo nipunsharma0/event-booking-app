@@ -24,7 +24,17 @@ export const createEvent = asyncHandler(async (req, res) => {
 // @access  Public
 export const getAllEvents = asyncHandler(async (req, res) => {
 
-    const events = await Event.find({}).populate('organizer', 'firstName lastName');
+    const filter = {};
+
+    if (req.query.category) {
+      filter.category = req.query.category;
+    }
+
+    if (req.query.city) {
+      filter['venue.city'] = { $regex: req.query.city, $options: 'i' }; // To handle case-sensitivity
+    }
+
+    const events = await Event.find(filter).populate('organizer', 'firstName lastName');
     res.status(200).json(events);
 });
 
