@@ -41,12 +41,13 @@ export const createBooking = asyncHandler(async (req, res) => {
 // @access  Private
 export const getMyBookings = asyncHandler(async (req, res) => {
 
-    // if (booking) {
-        const bookings = await Booking.find({ user: req.user._id })
+    const bookings = await Booking.find({ user: req.user._id })
         .populate('event', 'name date category');
+
+    if (bookings && bookings.length > 0) {
         res.status(200).json(bookings);
-    // } else {
-        res.status(404).json({ message: "No bookings found" });
-    // }
+    } else {
+        res.status(404).json({ message: "You have no bookings yet" });
+    }
 
 })
