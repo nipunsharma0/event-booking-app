@@ -82,3 +82,44 @@ export const getUserBookings = asyncHandler(async (req, res) => {
 
     res.status(200).json({ message: "All bookings fetched successfully", bookings});
 });
+
+
+// @desc    Get booking stats
+// @route   GET /api/bookings/stats
+// @access  Admin
+export const getBookingsStats = asyncHandler(async (req, res) => {
+
+    const stats = await Booking.aggregate([
+
+        {
+            $group: {
+                _id: '$event',
+                totalBookings: { $sum: 1 },
+                totalSeatsSold: { $sum: '$seatsBooked' },
+                totalRevenue: { $sum: '$totalPrice' },
+            }
+        },
+
+        {
+            $lookup: {
+                from: 'events',
+                localField: '_id',
+                foreignField: '_id',
+                as: 'eventDetails'
+            }
+        },
+
+        {
+            $project: {
+                _id: 0,
+                eventId: '$_id',
+                eventName: { $arrayElemAt: ['$eventDetails.name', 0] },
+                totalBookings: 1,
+                totalSeatsSold: 1,
+                totalRevenue: 1
+            }
+        }
+    ]);
+
+    res.status(200).json({stats});
+})
