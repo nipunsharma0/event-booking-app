@@ -21,7 +21,7 @@ export const protect = asyncHandler(async (req, res, next) => {
             res.status(401).json({ message: "Not authorized, token failed" });
         }
     } else {
-        res.status(402).json({ message: "Not authorized, no token found" });
+        res.status(401).json({ message: "Not authorized, no token found" });
     }
 });
 

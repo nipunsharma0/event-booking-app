@@ -51,3 +51,16 @@ export const getMyBookings = asyncHandler(async (req, res) => {
     }
 
 })
+
+
+// @desc    Get all bookings for all users 
+// @route   GET /api/bookings
+// @access  Admin
+export const getAllBookings = asyncHandler(async (req, res) => {
+
+    const bookings = await Booking.find({})
+        .populate('user', 'firstName lastName email')
+        .populate('event', 'name');
+
+    res.status(200).json({ message: "All bookings fetched successfully", bookings});
+});
