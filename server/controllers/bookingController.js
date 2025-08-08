@@ -64,3 +64,21 @@ export const getAllBookings = asyncHandler(async (req, res) => {
 
     res.status(200).json({ message: "All bookings fetched successfully", bookings});
 });
+
+
+// @desc    Get all bookings for a specific users 
+// @route   GET /api/bookings/user/:id
+// @access  Admin
+export const getUserBookings = asyncHandler(async (req, res) => {
+
+    const bookings = await Booking.find({ user: req.params.id})
+        .populate('event', 'name date');
+
+    if (bookings && bookings.length > 0) {
+        res.status(200).json({bookings});
+    } else {
+        res.status(400).json({ message: "No bookings found for this user" })
+    }
+
+    res.status(200).json({ message: "All bookings fetched successfully", bookings});
+});
