@@ -42,7 +42,7 @@ export const createBooking = asyncHandler(async (req, res) => {
 export const getMyBookings = asyncHandler(async (req, res) => {
 
     const bookings = await Booking.find({ user: req.user._id })
-        .populate('event', 'name date category price');
+        .populate('event', 'name date category price image');
 
     if (bookings && bookings.length > 0) {
         res.status(200).json({ message: "Bookings fetched successfully!" , bookings });

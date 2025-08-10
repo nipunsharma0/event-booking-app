@@ -21,7 +21,11 @@ const EventDetailsPage = () => {
       try {
         setLoading(true);
         const { data } = await API.get(`/events/${id}`);
-        setEvent(data.event);
+        
+        console.log("api res:", data); 
+        const eventData = data.event ? data.event : data;
+        setEvent(eventData);
+        
       } catch (err) {
         setError('Failed to fetch event details.');
       } finally {
@@ -33,33 +37,45 @@ const EventDetailsPage = () => {
 
   const handleBooking = async (e) => {
     e.preventDefault();
-    
     if (!user) {
       localStorage.setItem('redirectPath', location.pathname);
       navigate('/login');
       return;
     }
-
     try {
       const bookingData = { eventId: id, seatsBooked: Number(seats) };
       await API.post('/bookings', bookingData);
       addNotification(`Successfully booked ${seats} seat(s)!`, 'success');
       const { data } = await API.get(`/events/${id}`);
-      setEvent(data.event);
+      const eventData = data.event ? data.event : data;
+      setEvent(eventData);
     } catch (err) {
       addNotification(err.response?.data?.message || 'Booking failed.', 'error');
     }
   };
 
-  if (loading) return <div className="flex justify-center items-center h-screen"><span className="loading loading-lg loading-spinner text-primary"></span></div>;
-  if (error) return <div className="alert alert-error mt-4">{error}</div>;
-  if (!event) return <div className="text-center mt-10">Event not found.</div>;
+  if (loading) {
+    return <div className="flex justify-center items-center h-screen"><span className="loading loading-lg loading-spinner text-primary"></span></div>;
+  }
+  if (error) {
+    return <div className="alert alert-error mt-4">{error}</div>;
+  }
+  if (!event) {
+    return <div className="text-center mt-10">Event not found.</div>;
+  }
+
+  const serverBaseUrl = import.meta.env.VITE_API_URL.replace('/api', '');
+  const imageUrl = event.image 
+    ? `${serverBaseUrl}/${event.image.replace(/\\/g, '/')}` 
+    : `https://placehold.co/600x400/a3e635/000000?text=${event.name}`;
+  
+  console.log("image url:", imageUrl);
 
   return (
     <div className="container mx-auto p-4 md:p-8">
       <div className="card lg:card-side bg-base-100 shadow-xl">
         <figure className="lg:w-1/2">
-          <img src={event.image || 'https://placehold.co/600x400/a3e635/000000?text=Evently'} alt={event.name} className="w-full h-full object-cover" />
+          <img src={imageUrl} alt={event.name} className="w-full h-full object-cover" />
         </figure>
         <div className="card-body lg:w-1/2 flex flex-col">
           <div className="flex-grow">
@@ -74,7 +90,6 @@ const EventDetailsPage = () => {
               <p><strong>Seats Available:</strong> {event.maxSeats - event.bookedSeats}</p>
             </div>
           </div>
-
           <div className="card-actions justify-end mt-6">
             <form onSubmit={handleBooking} className="w-full">
               <div className="form-control">

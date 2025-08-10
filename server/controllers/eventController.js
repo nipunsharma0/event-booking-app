@@ -87,7 +87,7 @@ export const getEventById = asyncHandler(async (req, res) => {
   console.log(req.params._id);
 
   if (event) {
-    res.status(200).json({ message: "Event fetched successfully", event })
+    res.status(200).json({ event })
   } else {
     res.status(404).json({ message: "Event not found" })
   }
