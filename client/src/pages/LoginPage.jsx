@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-
-const sideImageUrl = 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80';
+const sideImageUrl = 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%D%D&auto=format&fit=crop&w=1170&q=80';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -16,7 +15,6 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!email || !password) {
       setError('Please fill in all fields.');
       return;
@@ -26,7 +24,15 @@ const LoginPage = () => {
 
     try {
       await login(email, password);
-      navigate('/'); 
+      
+      const redirectPath = localStorage.getItem('redirectPath');
+      
+      if (redirectPath) {
+        localStorage.removeItem('redirectPath');
+      }
+      
+      navigate(redirectPath || '/');
+
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to log in. Please check your credentials.');
     } finally {
@@ -38,7 +44,6 @@ const LoginPage = () => {
     <div className="flex items-center justify-center min-h-screen bg-base-200 p-4">
       <div className="flex w-full max-w-4xl mx-auto overflow-hidden bg-base-100 rounded-2xl shadow-2xl">
         
-        {/* form */}
         <div className="w-full p-8 lg:w-1/2">
           <h2 className="text-3xl font-bold text-center text-primary">Welcome Back!</h2>
           <p className="mt-2 text-center text-base-content/70">Sign in to continue to Evently</p>
@@ -96,7 +101,6 @@ const LoginPage = () => {
           </p>
         </div>
 
-        {/* image */}
         <div 
           className="hidden lg:block lg:w-1/2 bg-cover bg-center"
           style={{ backgroundImage: `url(${sideImageUrl})` }}
