@@ -14,6 +14,9 @@ export const createEvent = asyncHandler(async (req, res) => {
     organizer: req.user._id, // this will link event to current admin
   });
 
+  if (req.file) {
+    event.image = req.file.path;
+  }
   const createdEvent = await event.save();
   res.status(201).json({ message: "Event created successfully!", createdEvent });
 });
@@ -37,10 +40,10 @@ export const getAllEvents = asyncHandler(async (req, res) => {
   if (req.query.minPrice || req.query.maxPrice) {
     filter.price = {};
     if (req.query.minPrice) {
-      filter.price.$gte = Number(req.query.minPrice); 
+      filter.price.$gte = Number(req.query.minPrice);
     }
     if (req.query.maxPrice) {
-      filter.price.$lte = Number(req.query.maxPrice); 
+      filter.price.$lte = Number(req.query.maxPrice);
     }
   }
 
@@ -92,6 +95,10 @@ export const updateEvent = asyncHandler(async (req, res) => {
     event.venue = req.body.venue || event.venue;
     event.price = req.body.price || event.price;
     event.maxSeats = req.body.maxSeats || event.maxSeats;
+
+    if (req.file) {
+      event.image = req.file.path;
+    }
 
     const updatedEvent = await event.save();
     res.status(200).json({ message: "Event updated successfully!", updatedEvent });

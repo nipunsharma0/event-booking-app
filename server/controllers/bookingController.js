@@ -42,7 +42,7 @@ export const createBooking = asyncHandler(async (req, res) => {
 export const getMyBookings = asyncHandler(async (req, res) => {
 
     const bookings = await Booking.find({ user: req.user._id })
-        .populate('event', 'name date category');
+        .populate('event', 'name date category price');
 
     if (bookings && bookings.length > 0) {
         res.status(200).json({ message: "Bookings fetched successfully!" , bookings });
@@ -72,12 +72,12 @@ export const getAllBookings = asyncHandler(async (req, res) => {
 export const getUserBookings = asyncHandler(async (req, res) => {
 
     const bookings = await Booking.find({ user: req.params.id})
-        .populate('event', 'name date');
+        .populate('event', 'name date category price');
 
     if (bookings && bookings.length > 0) {
         res.status(200).json({bookings});
     } else {
-        res.status(400).json({ message: "No bookings found for this user" })
+        res.status(404).json({ message: "No bookings found for this user" })
     }
 
     res.status(200).json({ message: "All bookings fetched successfully", bookings});

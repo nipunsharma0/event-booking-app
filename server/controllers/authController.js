@@ -47,7 +47,9 @@ export const loginUser = asyncHandler(async (req, res) => {
     res.status(200).json({
       message: "User Logged in Successfully",
       _id: user._id,
-      email: user.email
+      firstName: user.firstName,
+      email: user.email,
+      isAdmin: user.isAdmin
     });
   } else {
     res.status(401).json({ message: "Invalid email or password" }); 

@@ -25,8 +25,12 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <li><Link to="/login">Login</Link></li>
-              <li><Link to="/register">Register</Link></li>
+              {/* <li><Link to="/login">Login</Link></li>
+              <li><Link to="/register">Register</Link></li> */}
+              <div className="flex-1">
+                <Link to="/login" className="btn btn-ghost text-lg">Login</Link>
+                <Link to="/register" className="btn btn-secondary text-lg">Register</Link>
+              </div>
             </>
           )}
         </ul>

@@ -12,6 +12,11 @@ const eventSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+
+  image: {
+    type: String,
+    required: true
+  },
   description: {
     type: String,
     required: true,
@@ -19,7 +24,7 @@ const eventSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ['Music', 'Sports', 'Technology', 'Arts', 'Food & Drink', 'Other'], 
+    enum: ['Music', 'Sports', 'Technology', 'Arts', 'Food & Drink', 'Other'],
   },
   date: {
     type: Date,
@@ -47,7 +52,7 @@ const eventSchema = new mongoose.Schema({
   },
   organizer: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', 
+    ref: 'User',
     required: true,
   }
 }, {

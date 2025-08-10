@@ -4,12 +4,13 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+
 import authRoutes from './routes/authRoutes.js';
 import eventRoutes from './routes/eventRoutes.js';
 import bookingRoutes from './routes/bookingRoutes.js'
-import User from './models/User.js';
-import Event from './models/Event.js';
-
+import userRoutes from './routes/userRoutes.js'
 
 dotenv.config();
 const app = express();
@@ -32,15 +33,19 @@ const corsOptions = {
   credentials: true,
 };
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(cors(corsOptions)); 
 app.use(express.json()); 
 app.use(cookieParser()); 
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/bookings', bookingRoutes);
+app.use('/api/users', userRoutes);
 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
