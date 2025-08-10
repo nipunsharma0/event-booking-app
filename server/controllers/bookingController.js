@@ -81,7 +81,7 @@ export const getUserBookings = asyncHandler(async (req, res) => {
         res.status(404).json({ message: "No bookings found for this user" })
     }
 
-    res.status(200).json({ message: "All bookings fetched successfully", bookings});
+    // res.status(200).json({ message: "All bookings fetched successfully", bookings});
 });
 
 
