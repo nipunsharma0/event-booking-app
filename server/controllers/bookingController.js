@@ -76,6 +76,7 @@ export const getUserBookings = asyncHandler(async (req, res) => {
 
     if (bookings && bookings.length > 0) {
         res.status(200).json({bookings});
+        return;
     } else {
         res.status(404).json({ message: "No bookings found for this user" })
     }
