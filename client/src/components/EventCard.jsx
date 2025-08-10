@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { IconEdit, IconTrash, IconCalendar, IconDotsVertical } from '@tabler/icons-react';
+import { IconEdit, IconTrash, IconCalendar, IconDotsVertical, IconMapPin } from '@tabler/icons-react';
 
 const EventCard = ({ event, onEdit, onDelete }) => {
   const formattedDate = new Date(event.date).toLocaleString('en-US', {
@@ -34,6 +34,11 @@ const EventCard = ({ event, onEdit, onDelete }) => {
           <p className="text-base-content/80 mt-2 flex items-center">
             <IconCalendar size={16} className="inline-block mr-2" /> {formattedDate}
           </p>
+          {event.venue && (
+            <p className="text-base-content/80 mt-1 flex items-center truncate">
+              <IconMapPin size={16} className="inline-block mr-2 shrink-0" /> {event.venue.street}, {event.venue.city}
+            </p>
+          )}
           <p className="text-lg font-bold text-accent mt-2">₹{event.price}</p>
         </div>
       </Link>

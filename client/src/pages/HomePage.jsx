@@ -29,7 +29,7 @@ const HomePage = () => {
             params.append(key, filters[key]);
           }
         });
-        
+
         const { data } = await API.get(`/events?${params.toString()}`);
         setData(data);
       } catch (err) {
@@ -53,12 +53,16 @@ const HomePage = () => {
   return (
     <div className="p-4 lg:p-8">
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-        
+
         <aside className="lg:col-span-1">
           <SearchAndFilter onFilterChange={handleFilterChange} />
         </aside>
 
         <main className="lg:col-span-4">
+          <div className="text-center my-8">
+            <h1 className="text-5xl font-bold tracking-tight">Discover Your Next Experience</h1>
+            <p className="mt-3 text-lg text-base-content/70">Browse through a curated list of events happening near you.</p>
+          </div>
           {loading ? (
             <div className="flex justify-center items-center h-full min-h-[60vh]"><span className="loading loading-lg loading-spinner text-primary"></span></div>
           ) : error ? (
