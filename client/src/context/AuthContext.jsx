@@ -22,9 +22,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const register = async (userData) => {
-    const { data } = await API.post('/auth/register', userData);
-    localStorage.setItem('userInfo', JSON.stringify(data));
-    setUser(data);
+     await API.post('/auth/register', userData);
+    // setUser(data);
+
   };
 
   const logout = async () => {

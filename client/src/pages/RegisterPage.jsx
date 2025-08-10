@@ -45,25 +45,17 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    const allValid = Object.values(passwordValidation).every(Boolean);
-    if (!allValid) {
-      addNotification('Please ensure your password meets all requirements.', 'error'); 
-      return;
-    }
-
     setLoading(true);
-
     try {
-      await register(formData);
-      addNotification('Registration successful! Welcome.', 'success'); 
-      navigate('/');
+        await register(formData);
+        navigate('/check-email');
     } catch (err) {
-      addNotification(err.response?.data?.message || 'Failed to register.', 'error'); 
+        const message = err.response?.data?.message || 'Failed to register.';
+        addNotification(message, 'error');
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
 
   const renderValidationCheck = (isValid, text) => (
     <li className={`flex items-center gap-2 ${isValid ? 'text-success' : 'text-base-content/50'}`}>

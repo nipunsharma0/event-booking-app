@@ -141,11 +141,12 @@ const EventForm = ({ eventToEdit, onFormSubmit }) => {
       <div className="collapse bg-base-200">
         <input type="checkbox" /> 
         <div className="collapse-title font-medium">
-          Full Venue Address (Street, State, Zip)
+          Full Venue Address (Street, City, State, Zip)
         </div>
         <div className="collapse-content">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
             <input type="text" name="street" placeholder="Street" value={formData.venue.street} onChange={handleVenueChange} className="input input-bordered" required />
+            <input type="text" name="city" placeholder="city" value={formData.venue.city} onChange={handleVenueChange} className="input input-bordered" required />
             <input type="text" name="state" placeholder="State" value={formData.venue.state} onChange={handleVenueChange} className="input input-bordered" required />
             <input type="text" name="zipCode" placeholder="Zip Code" value={formData.venue.zipCode} onChange={handleVenueChange} className="input input-bordered" required />
           </div>

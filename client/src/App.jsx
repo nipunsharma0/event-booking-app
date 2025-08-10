@@ -9,6 +9,7 @@ import ProtectedRoute from './routes/ProtectedRoute';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminRoute from './routes/AdminRoute';
 import UserBookingsPage from './pages/UserBookingsPage';
+import CheckEmailPage from './pages/CheckEmailMail';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/check-email" element={<CheckEmailPage />} />
           <Route path="/event/:id" element={<EventDetailsPage />} />
 
           {/* Protected routes */}

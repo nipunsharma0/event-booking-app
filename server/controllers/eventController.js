@@ -27,14 +27,21 @@ export const createEvent = asyncHandler(async (req, res) => {
 // @access  Public
 export const getAllEvents = asyncHandler(async (req, res) => {
 
+  const pageSize = 6;
+  const page = Number(req.query.pageNumber) || 1;
+
   const filter = {};
+
+  if (req.query.keyword) {
+    filter.name = { $regex: req.query.keyword, $options: 'i'}
+  }
 
   if (req.query.category) {
     filter.category = req.query.category;
   }
 
   if (req.query.city) {
-    filter['venue.city'] = { $regex: req.query.city, $options: 'i' }; // To handle case-sensitivity
+    filter['venue.city'] = { $regex: req.query.city, $options: 'i' } // To handle case-sensitivity
   }
 
   if (req.query.minPrice || req.query.maxPrice) {
@@ -60,8 +67,14 @@ export const getAllEvents = asyncHandler(async (req, res) => {
     }
   }
 
-  const events = await Event.find(filter).populate('organizer', 'firstName lastName');
-  res.status(200).json(events);
+  const count = await Event.countDocuments(filter);
+
+  const events = await Event.find(filter)
+    .populate('organizer', 'firstName lastName')
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+
+  res.status(200).json({ events , page, pages: Math.ceil(count / pageSize)});
 });
 
 
@@ -101,7 +114,7 @@ export const updateEvent = asyncHandler(async (req, res) => {
     }
 
     const updatedEvent = await event.save();
-    res.status(200).json({ message: "Event updated successfully!", updatedEvent });
+    res.status(200).json({ message: "Event updated successfully!" });
   } else {
     res.status(404).json({ message: "Event not found" });
     throw new Error('Event not found');
