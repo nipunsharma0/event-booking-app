@@ -250,3 +250,25 @@ server {
   }
 }
 ```
+
+---
+
+---
+
+# Test Accounts
+
+```bash
+// admin
+{
+    "email": "nipun4colg@gmail.com",
+    "password": "Nipun@11"
+}
+
+// user 
+{
+    "email": "vedanshdubey@gmail.com",
+    "password": "Vedansh@1"
+}
+
+```
+---
