@@ -21,24 +21,28 @@ mongoose.connect(process.env.MONGO_URI)
   .catch((err) => console.error("MongoDB connection error:", err));
 
 
-// const allowedOrigins = ['http://localhost:5173']; 
-// const corsOptions = {
-//   origin: (origin, callback) => {
-//     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error('Not allowed by CORS'));
-//     }
-//   },
-//   credentials: true,
-// };
+const allowedOrigins = [
+  'https://event-booking-app-frontend.onrender.com',
+  'https://www.n1pun.codes'
+]; 
 const corsOptions = {
   origin: (origin, callback) => {
-    callback(null, true); 
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
   },
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
-app.use(cors(corsOptions));
+
+// const FRONTEND_URL = "https://event-booking-app-frontend.onrender.com";
+// app.use(cors({
+//   origin: FRONTEND_URL,
+//   methods: ["GET", "POST", "PUT", "DELETE"],
+//   credentials: true
+// }));
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
