@@ -56,7 +56,7 @@ Before you begin, ensure you have the following installed on your local machine:
 
 ### 1. Clone the Repository
 ```bash
-git clone [https://github.com/nipunsharma0/event-booking-app.git](https://github.com/nipunsharma0/event-booking-app.git)
+git clone https://github.com/nipunsharma0/event-booking-app.git
 cd event-booking-app
 ```
 ### 2. Configure Backend
