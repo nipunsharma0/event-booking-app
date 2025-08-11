@@ -21,7 +21,7 @@ An advanced, full-stack event booking platform built with the MERN stack (MongoD
 * **Redirect on Login:** If a user tries to book an event while logged out, they are redirected to the login page and then returned to the event page after a successful login.
 * **User Profile:** A personal dashboard showing a categorized list of upcoming and past event bookings.
 
-### 👑 Admin Features (Management Side)
+### 🔐 Admin Features (Management Side)
 * **Protected Dashboard:** A secure, admin-only dashboard for platform management.
 * **Event CRUD:** Full Create, Read, Update, and Delete functionality for events, including image uploads.
 * **Booking Management:** View a complete list of all bookings made by all users across the platform.
