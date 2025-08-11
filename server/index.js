@@ -23,7 +23,8 @@ mongoose.connect(process.env.MONGO_URI)
 
 const allowedOrigins = [
   'https://event-booking-app-frontend.onrender.com',
-  'https://www.n1pun.codes'
+  'https://www.n1pun.codes',
+  'https://n1pun.codes'
 ]; 
 const corsOptions = {
   origin: (origin, callback) => {
